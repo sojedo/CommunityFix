@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     path('submit/', views.submit_report, name='submit_report'),
+    path('my-reports/', views.my_reports, name='my_reports'),
 ]

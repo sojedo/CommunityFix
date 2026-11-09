@@ -13,6 +13,11 @@ class ReportAdmin(admin.ModelAdmin):
         'title',
         'category',
         'reporter',
+        'assigned_officer',
         'status',
         'date_reported',
     )
+
+    list_filter = ('status', 'category')
+
+    search_fields = ('title', 'description', 'location')

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Reports</title>
+</head>
+<body>
+
+    <h1>My Reports</h1>
+
+{% for report in reports %}
+    <h2>{{ report.title }}</h2>
+    <p>{{ report.description }}</p>
+    <p>Category: {{ report.category }}</p>
+    <p>Location: {{ report.location }}</p>
+    <p>Status: {{ report.get_status_display }}</p>
+    <p>Date: {{ report.date_reported }}</p>
+
+{% empty %}
+
+    <p>You have not submitted any reports yet.</p>
+
+{% endfor %}
+
+</body>
+</html>

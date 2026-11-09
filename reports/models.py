@@ -45,6 +45,14 @@ class Report(models.Model):
         related_name='reports'
     )
 
+    assigned_officer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='assigned_reports'
+    )
+
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,

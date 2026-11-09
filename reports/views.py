@@ -22,3 +22,13 @@ def submit_report(request):
         'reports/submit_report.html',
         {'form': form}
     )
+
+@login_required
+def my_reports(request):
+    reports = request.user.reports.all()
+    
+    return render(
+    request,
+    'reports/my_reports.html',
+    {'reports': reports}
+)
