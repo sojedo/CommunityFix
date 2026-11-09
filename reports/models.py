@@ -21,6 +21,10 @@ class Report(models.Model):
         ('rejected', 'Rejected'),
     ]
 
+    rejection_reason = models.TextField(
+    blank=True,
+    default=''
+)
     title = models.CharField(max_length=200)
     description = models.TextField()
     location = models.CharField(max_length=255)
