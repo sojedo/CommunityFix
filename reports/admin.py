@@ -41,6 +41,11 @@ class ReportAdminForm(forms.ModelForm):
         elif self.instance.status == 'in_progress':
             self.fields['status'].choices = [
                 ('in_progress', 'In Progress'),
+                ('pending_verification', 'Pending_verification'),
+            ]
+        elif self.instance.status == 'pending_verification':
+            self.fields['status'].choices = [
+                ('pending_verification', 'Pending Verification'),
                 ('resolved', 'Resolved'),
             ]
 

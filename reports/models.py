@@ -17,6 +17,7 @@ class Report(models.Model):
         ('under_review', 'Under Review'),
         ('assigned', 'Assigned'),
         ('in_progress', 'In Progress'),
+        ('pending_verification', 'Pending Verification'),
         ('resolved', 'Resolved'),
         ('rejected', 'Rejected'),
     ]

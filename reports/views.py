@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from .forms import ReportForm
+from .models import Report
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -32,3 +33,32 @@ def my_reports(request):
     'reports/my_reports.html',
     {'reports': reports}
 )
+
+@login_required
+def officer_reports(request):
+    reports = Report.objects.filter(
+        assigned_officer=request.user,
+        status__in=['assigned', 'in_progress']
+    )
+    return render(
+        request,
+        'reports/officer_reports.html',
+        {'reports': reports}
+    )
+
+@login_required
+def update_report_status(request, report_id):
+    report = Report.objects.get(
+        id=report_id,
+        assigned_officer=request.user
+    )
+
+    if report.status == 'assigned':
+        report.status = 'in_progress'
+        report.save()
+
+    elif report.status == 'in_progress':
+        report.status = 'pending_verification'
+        report.save()
+
+    return redirect('officer_reports')

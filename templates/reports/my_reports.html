@@ -13,6 +13,9 @@
     <p>Category: {{ report.category }}</p>
     <p>Location: {{ report.location }}</p>
     <p>Status: {{ report.get_status_display }}</p>
+{% if report.status == 'rejected' %}
+    <p>Rejection reason: {{ report.rejection_reason }}</p>
+{% endif %}
     <p>Date: {{ report.date_reported }}</p>
 
 {% empty %}

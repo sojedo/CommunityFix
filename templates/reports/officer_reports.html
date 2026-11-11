@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Officer Reports</title>
+</head>
+<body>
+
+    <h1>Reports Assigned to Me</h1>
+    <p>Logged in as: {{ request.user.username }}</p>
+
+    {% for report in reports %}
+
+        <h2>{{ report.title }}</h2>
+
+        <p>{{ report.description }}</p>
+
+        <p>Category: {{ report.category }}</p>
+
+        <p>Location: {{ report.location }}</p>
+
+        <p>Status: {{ report.get_status_display }}</p>
+    {% if report.status == 'assigned' %}
+        <form method="post" action="{% url 'update_report_status' report.id %}">
+            {% csrf_token %}
+            <button type="submit">Start Work</button>
+        </form>
+    {% endif %}  
+    {% if report.status == 'in_progress' %}
+        <form method="post" action="{% url 'update_report_status' report.id %}">
+            {% csrf_token %}
+            <button type="submit">Mark Resolved</button>
+        </form>
+    {% endif %} 
+
+        <p>Date: {{ report.date_reported }}</p>
+
+    {% empty %}
+
+        <p>No reports have been assigned to you.</p>
+
+    {% endfor %}
+
+</body>
+</html>
