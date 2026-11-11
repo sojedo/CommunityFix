@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Report
+from .models import Category, Report, ReportUpdate
 from django import forms
 from django.contrib.auth import get_user_model
 
@@ -65,6 +65,22 @@ class ReportAdminForm(forms.ModelForm):
                 'You must provide a reason for rejecting this report.'
             )
         return cleaned_data
+
+    def save_model(self, request, obj, form, change):
+        old_status = None
+
+        if change:
+            old_report = Report.objects.get(pk=obj.pk)
+            old_status = old_report.status
+
+        super().save_model(request, obj, form, change)
+
+        if old_status != obj.status:
+            ReportUpdate.objects.create(
+                report=obj,
+                status=obj.status,
+                changed_by=request.user
+            )
 
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):

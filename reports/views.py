@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .forms import ReportForm
-from .models import Report
+from .models import Report, ReportUpdate
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -13,7 +13,15 @@ def submit_report(request):
             report = form.save(commit=False)
             report.reporter = request.user
             report.save()
-        return redirect('submit_report')
+            
+            print("CREATING REPORT HISTORY")
+
+            ReportUpdate.objects.create(
+                report=report,
+                status=report.status,
+                changed_by=request.user
+            )
+            return redirect('submit_report')
 
     else:
         form = ReportForm()
@@ -56,9 +64,21 @@ def update_report_status(request, report_id):
     if report.status == 'assigned':
         report.status = 'in_progress'
         report.save()
+        
+        ReportUpdate.objects.create(
+        report=report,
+        status=report.status,
+        changed_by=request.user
+    )
 
     elif report.status == 'in_progress':
         report.status = 'pending_verification'
         report.save()
+        
+        ReportUpdate.objects.create(
+        report=report,
+        status=report.status,
+        changed_by=request.user
+    )
 
     return redirect('officer_reports')

@@ -66,3 +66,26 @@ class Report(models.Model):
 
     def __str__(self):
         return self.title
+
+class ReportUpdate(models.Model):
+
+    report = models.ForeignKey(
+        Report,
+        on_delete=models.CASCADE,
+        related_name='updates'
+    )
+
+    status = models.CharField(
+        max_length=30,
+        choices=Report.STATUS_CHOICES
+    )
+
+    changed_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.report.title} - {self.get_status_display()}'

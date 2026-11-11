@@ -13,6 +13,27 @@
     <p>Category: {{ report.category }}</p>
     <p>Location: {{ report.location }}</p>
     <p>Status: {{ report.get_status_display }}</p>
+{% if report.status == 'submitted' %}
+    <p>Progress: Report submitted</p>
+
+{% elif report.status == 'under_review' %}
+    <p>Progress: Your report is being reviewed</p>
+
+{% elif report.status == 'assigned' %}
+    <p>Progress: A Field Officer has been assigned</p>
+
+{% elif report.status == 'in_progress' %}
+    <p>Progress: Work is in progress</p>
+
+{% elif report.status == 'pending_verification' %}
+    <p>Progress: Work has been completed and is awaiting verification</p>
+
+{% elif report.status == 'resolved' %}
+    <p>Progress: Your report has been resolved</p>
+
+{% elif report.status == 'rejected' %}
+    <p>Progress: Your report was rejected</p>
+{% endif %}
 {% if report.status == 'rejected' %}
     <p>Rejection reason: {{ report.rejection_reason }}</p>
 {% endif %}
